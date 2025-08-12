@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const { format } = require('date-fns');
 const { db } = require('./db');
-const { testTable } = require('./test.table');
+const { testTable } = require('./schema');
 
 const app = express();
 app.use(express.json());
@@ -23,7 +23,7 @@ app.post('/', async (req, res) => {
   const [newRecord] = await db
     .insert(testTable)
     .values({
-      date,
+      date: new Date(date),
     })
     .returning();
 
