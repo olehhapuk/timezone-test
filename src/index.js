@@ -19,6 +19,7 @@ app.get('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
   const { date } = req.body;
+  console.log(date);
 
   const [newRecord] = await db
     .insert(testTable)
