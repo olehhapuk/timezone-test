@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config();
-const { format } = require('date-fns');
+const { formatInTimeZone } = require('date-fns-tz');
 const { uk } = require('date-fns/locale');
 const { db } = require('./db');
 const { testTable } = require('./schema');
@@ -16,7 +16,7 @@ app.get('/', async (req, res) => {
 
   res.render('index', {
     dates: records.map(({ date }) =>
-      format(date, 'MMMM dd yyyy, HH:mm:ss', {
+      formatInTimeZone(date, 'Europe/Kyiv', 'MMMM dd yyyy, HH:mm:ss', {
         locale: uk,
       })
     ),
