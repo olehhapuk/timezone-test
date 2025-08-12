@@ -14,7 +14,9 @@ app.get('/', async (req, res) => {
   console.log(records);
 
   res.render('index', {
-    dates: records.map(({ date }) => format(date, 'MMMM dd yyyy, HH:mm:ss')),
+    dates: records.map(({ date }) =>
+      format(date + 'Z', 'MMMM dd yyyy, HH:mm:ss')
+    ),
   });
 });
 
