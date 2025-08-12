@@ -1,24 +1,33 @@
 const express = require('express');
 require('dotenv').config();
 const { format } = require('date-fns');
-
-const dates = [];
+const { db } = require('./db');
+const { testTable } = require('./test.table');
 
 const app = express();
 app.use(express.json());
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  const records = await db.select().from(testTable);
+
   res.render('index', {
-    dates: dates.map((date) => format(date, 'MMMM dd yyyy, HH:mm:ss')),
+    dates: records.map(({ date }) => format(date, 'MMMM dd yyyy, HH:mm:ss')),
   });
 });
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const { date } = req.body;
-  dates.push(date);
-  res.json(dates);
+
+  const [newRecord] = await db
+    .insert(testTable)
+    .values({
+      date,
+    })
+    .returning();
+
+  res.json(newRecord);
 });
 
 app.listen(process.env.PORT, () => {
