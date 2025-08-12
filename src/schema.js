@@ -4,6 +4,7 @@ const testTable = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   date: timestamp('date', {
     withTimezone: true,
+    mode: 'string',
   }).notNull(),
 });
 

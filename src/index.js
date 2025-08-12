@@ -23,7 +23,7 @@ app.post('/', async (req, res) => {
   const [newRecord] = await db
     .insert(testTable)
     .values({
-      date: new Date(date),
+      date,
     })
     .returning();
 
